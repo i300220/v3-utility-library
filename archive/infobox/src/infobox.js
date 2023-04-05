@@ -218,17 +218,18 @@ InfoBox.prototype.createInfoBoxDiv_ = function () {
 
       for (i = 0; i < events.length; i++) {
 
-        this.eventListeners_.push(google.maps.event.addDomListener(this.div_, events[i], cancelHandler));
+        //this.eventListeners_.push(google.maps.event.addDomListener(this.div_, events[i], cancelHandler));
+        this.eventListeners_.push(this.div_.addEventListener(events[i], cancelHandler));
       }
       
       // Workaround for Google bug that causes the cursor to change to a pointer
       // when the mouse moves over a marker underneath InfoBox.
-      this.eventListeners_.push(google.maps.event.addDomListener(this.div_, "mouseover", function (e) {
-        this.style.cursor = "default";
-      }));
+      //this.eventListeners_.push(google.maps.event.addDomListener(this.div_, "mouseover", function (e) { this.style.cursor = "default"; }));
+      this.eventListeners_.push(this.div_.addEventListener("mouseover", function (e) { this.style.cursor = "default"; }));
     }
 
-    this.contextListener_ = google.maps.event.addDomListener(this.div_, "contextmenu", ignoreHandler);
+    //this.contextListener_ = google.maps.event.addDomListener(this.div_, "contextmenu", ignoreHandler);
+    this.contextListener_ = this.div_.addEventListener("contextmenu", ignoreHandler);
 
     /**
      * This event is fired when the DIV containing the InfoBox's content is attached to the DOM.
@@ -274,7 +275,8 @@ InfoBox.prototype.addClickHandler_ = function () {
   if (this.closeBoxURL_ !== "") {
 
     closeBox = this.div_.firstChild;
-    this.closeListener_ = google.maps.event.addDomListener(closeBox, "click", this.getCloseClickHandler_());
+    //is.closeListener_ = google.maps.event.addDomListener(closeBox, "click", this.getCloseClickHandler_());
+    this.closeListener_ = closeBox.addEventListener("click", this.getCloseClickHandler_());
 
   } else {
 
